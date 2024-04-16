@@ -49,6 +49,13 @@ Essas são as regras básicas do jogo da velha. É um jogo simples, mas pode ser
   - Contagem de partidas que foram empate
   - Fluxo do jogo
 
+- Lobby
+  - Encontrar partidas
+  - Hostear partida
+  - Entrar na partida via codigo
+
+- Autenticar o jogador
+
 - HUD
   - Botão de desistir
   - Numero de Partidas

@@ -34,6 +34,7 @@ public class Board : MonoBehaviour
             {
                 tile.SetColumn(column);
                 tile.SetRow(row);
+                EditorUtility.SetDirty(tile);
             }
 
             column++;

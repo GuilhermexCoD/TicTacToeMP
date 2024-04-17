@@ -477,6 +477,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_0_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _column
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -578,6 +582,14 @@ PrefabInstance:
     - target: {fileID: 5853373600001411510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
       propertyPath: m_Name
       value: Tile_2_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _row
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _column
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -686,6 +698,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_1_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _row
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _column
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -787,6 +807,14 @@ PrefabInstance:
     - target: {fileID: 5853373600001411510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
       propertyPath: m_Name
       value: Tile_2_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _row
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _column
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -890,6 +918,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_0_1
       objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _column
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -991,6 +1023,10 @@ PrefabInstance:
     - target: {fileID: 5853373600001411510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
       propertyPath: m_Name
       value: Tile_1_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _row
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1216,6 +1252,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_2_0
       objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _row
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1317,6 +1357,14 @@ PrefabInstance:
     - target: {fileID: 5853373600001411510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
       propertyPath: m_Name
       value: Tile_1_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _row
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283291759653009510, guid: 86e09ecde76c76e479f2b942214a7610, type: 3}
+      propertyPath: _column
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

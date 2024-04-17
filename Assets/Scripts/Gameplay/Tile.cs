@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Tile : MonoBehaviour
+public class Tile : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private int _row;
     [SerializeField] private int _column;
@@ -22,5 +23,10 @@ public class Tile : MonoBehaviour
     public void SetRow(int row)
     {
         _row = row;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log($"Click {_row} {_column}");
     }
 }

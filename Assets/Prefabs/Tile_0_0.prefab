@@ -186,8 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _row: 0
   _column: 0
-  _backgroundImage: {fileID: 0}
-  _optionText: {fileID: 0}
+  _backgroundImage: {fileID: 7580783515528491260}
+  _optionText: {fileID: 5393064734146574965}
 --- !u!1 &6082723102391715024
 GameObject:
   m_ObjectHideFlags: 0

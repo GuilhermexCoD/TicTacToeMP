@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -8,9 +7,10 @@ using static UnityEngine.EventSystems.PointerEventData;
 
 public class Board : MonoBehaviour
 {
-    [SerializeField] private Tile[] _tiles;
+    private const int MAX_COLUMNS = 3;
+    public event EventHandler<Tile.TileEventArgs> OnTileClick;
 
-    private Dictionary<Vector2Int, PlayerSymbol> _tileValues = new Dictionary<Vector2Int, PlayerSymbol>();
+    [SerializeField] private Tile[] _tiles;
 
 #if  UNITY_EDITOR
     [ContextMenu("UpdateColumnRowIndex")]
@@ -65,15 +65,6 @@ public class Board : MonoBehaviour
         EditorUtility.SetDirty(this);
     }
 
-    [ContextMenu("PrintTileDictionary")]
-    private void PrintTileDictionary()
-    {
-        for (int i = 0; i < _tileValues.Count; i++)
-        {
-            var keyValuePair = _tileValues.ElementAt(i);
-            Debug.Log($"KEY: {keyValuePair.Key} | VALUE: {keyValuePair.Value}");
-        }
-    }
 #endif
 
     private void Awake()
@@ -87,7 +78,7 @@ public class Board : MonoBehaviour
         {
             Tile tile = _tiles[i];
 
-            tile.OnTileClick += OnTileClick;
+            tile.OnTileClick += TileClick;
         }
     }
 
@@ -97,42 +88,40 @@ public class Board : MonoBehaviour
         {
             Tile tile = _tiles[i];
 
-            tile.OnTileClick -= OnTileClick;
+            tile.OnTileClick -= TileClick;
         }
     }
 
-    private void OnTileClick(object sender, Tile.TileEventArgs args)
+    private void TileClick(object sender, Tile.TileEventArgs args)
     {
-        Tile tile = (Tile)sender;
-
-        Vector2Int coordinates = new Vector2Int(args.row, args.column);
-
-        if (args.pressedInput == InputButton.Left)
-        {
-            if (_tileValues.TryAdd(coordinates, PlayerSymbol.X))
-            {
-                tile.SetOptionText("X");
-            }
-            else
-            {
-                Debug.Log("This Tile is taken");
-            }
-        }
-        else if (args.pressedInput == InputButton.Right)
-        {
-            if (_tileValues.TryAdd(coordinates, PlayerSymbol.O))
-            {
-                tile.SetOptionText("O");
-            }
-            else
-            {
-                Debug.Log("This Tile is taken");
-            }
-        }
+        OnTileClick?.Invoke(this, args);
     }
 
     private void OnDestroy()
     {
         UnSubscribeFromTileClick();
+    }
+
+    private int GetTileIndex(int row, int column)
+    {
+        // (0,0) = 0 = (row * 3) + column
+        // (0,1) = 1 = (0 * 3) + 1
+        // (0,2) = 2 = (0 * 3) + 2
+        // (1,0) = 3 = (1 * 3) + 0
+        // (1,1) = 4 = (1 * 3) + 1
+        // (1,2) = 5 = (1 * 3) + 2
+        // (2,0) = 6
+        // (2,1) = 7
+        // (2,2) = 8
+        return (row * MAX_COLUMNS) + column;
+    }
+
+    internal void DrawOnTile(Vector2Int coordinates, string tileText)
+    {
+        int index = GetTileIndex(coordinates.x, coordinates.y);
+
+        Tile tile = _tiles[index];
+
+        tile.SetOptionText(tileText);
     }
 }

@@ -10,9 +10,9 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public event EventHandler<TileEventArgs> OnTileClick;
     public class TileEventArgs : EventArgs
     {
-        public InputButton pressedInput;
         public int row;
         public int column;
+        public string text;
     }
 
     [SerializeField] private int _row;
@@ -39,7 +39,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     {
         OnTileClick?.Invoke(this, new TileEventArgs()
         {
-            pressedInput = eventData.button,
+            text = _optionText.text,
             row = _row,
             column = _column,
         });

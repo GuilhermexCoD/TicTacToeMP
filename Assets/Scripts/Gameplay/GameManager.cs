@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
     {
         CalculateVictoryColumn();
         CalculateVictoryLine();
-
     }
 
     private void CalculateVictoryLine()

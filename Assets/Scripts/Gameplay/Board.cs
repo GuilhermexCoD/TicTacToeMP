@@ -8,6 +8,8 @@ using static UnityEngine.EventSystems.PointerEventData;
 public class Board : MonoBehaviour
 {
     private const int MAX_COLUMNS = 3;
+    private const int MAX_LINES = 3;
+
     public event EventHandler<Tile.TileEventArgs> OnTileClick;
 
     [SerializeField] private Tile[] _tiles;
@@ -123,5 +125,15 @@ public class Board : MonoBehaviour
         Tile tile = _tiles[index];
 
         tile.SetOptionText(tileText);
+    }
+
+    public int GetLineSize()
+    {
+        return MAX_LINES;
+    }
+
+    public int GetColumnSize()
+    {
+        return MAX_COLUMNS;
     }
 }

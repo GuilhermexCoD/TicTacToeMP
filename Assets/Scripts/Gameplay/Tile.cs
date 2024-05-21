@@ -25,6 +25,11 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         _optionText.text = option;
     }
 
+    public void ClearOption()
+    {
+        _optionText.text = "";
+    }
+
     public void SetColumn(int column)
     {
         _column = column;

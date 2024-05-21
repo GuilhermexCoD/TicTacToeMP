@@ -99,11 +99,6 @@ public class Board : MonoBehaviour
         OnTileClick?.Invoke(this, args);
     }
 
-    private void OnDestroy()
-    {
-        UnSubscribeFromTileClick();
-    }
-
     private int GetTileIndex(int row, int column)
     {
         // (0,0) = 0 = (row * 3) + column
@@ -135,5 +130,24 @@ public class Board : MonoBehaviour
     public int GetColumnSize()
     {
         return MAX_COLUMNS;
+    }
+
+    public int GetSize()
+    {
+        return MAX_LINES * MAX_COLUMNS;
+    }
+
+    public void Clear()
+    {
+        for (int i = 0; i < _tiles.Length; i++)
+        {
+            Tile tile = _tiles[i];
+            tile.ClearOption();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        UnSubscribeFromTileClick();
     }
 }

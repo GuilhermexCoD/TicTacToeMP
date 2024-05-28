@@ -43,7 +43,7 @@ Essas são as regras básicas do jogo da velha. É um jogo simples, mas pode ser
   - Numero de empate
   - Calcular numero total de partidas (vitorias + derrotas + empates)
 
-- GameManager 
+- GameManager
   - Determina quantas partidas vão ser jogadas no total.
   - Contagem de partidas ganhas dos dois jogadores
   - Contagem de partidas que foram empate

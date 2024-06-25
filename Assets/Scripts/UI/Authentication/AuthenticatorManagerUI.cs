@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Core;
@@ -34,6 +35,33 @@ public class AuthenticatorManagerUI : MonoBehaviour
         _signUp.OnSignUpStarted += OnSignUpStarted;
         _signUp.OnSignUpCompleted += OnSignUpCompleted;
         _signUp.OnSignUpFailed += OnSignUpFailed;
+
+        _signIn.OnStarted += OnSignInStarted;
+        _signIn.OnFailed += OnSignInFailed;
+        _signIn.OnCompleted += OnSignInCompleted;
+    }
+
+    private async void OnSignInCompleted()
+    {
+        _loadingUI.SetActive(true);
+        _messageText.text = "Sign In successfully!";
+        await Task.Delay(2000);
+        _loadingUI.SetActive(false);
+        _signIn.gameObject.SetActive(false);
+    }
+
+    private async void OnSignInFailed(string failedMessage)
+    {
+        _loadingUI.SetActive(true);
+        _messageText.text = $"Sign In Error: {failedMessage}";
+        await Task.Delay(4000);
+        _loadingUI.SetActive(false);
+    }
+
+    private void OnSignInStarted()
+    {
+        _loadingUI.SetActive(true);
+        _messageText.text = "Signing In user...";
     }
 
     private void OnSignUpStarted()
@@ -63,6 +91,10 @@ public class AuthenticatorManagerUI : MonoBehaviour
         _signUp.OnSignUpStarted -= OnSignUpStarted;
         _signUp.OnSignUpCompleted -= OnSignUpCompleted;
         _signUp.OnSignUpFailed -= OnSignUpFailed;
+
+        _signIn.OnStarted -= OnSignInStarted;
+        _signIn.OnFailed -= OnSignInFailed;
+        _signIn.OnCompleted -= OnSignInCompleted;
     }
 
     private void OnDestroy()

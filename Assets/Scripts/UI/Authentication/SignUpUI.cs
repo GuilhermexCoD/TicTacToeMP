@@ -26,10 +26,16 @@ public class SignUpUI : MonoBehaviour
         Debug.Log($"Username: {username} | Password: {password} | Confirm Password: {confirmPassword}");
 
         if (username.Length < 3)
+        {
+            OnSignUpFailed?.Invoke("Username is less than 3 characters!");
             return;
+        }
 
         if (password != confirmPassword)
+        {
+            OnSignUpFailed?.Invoke("Password must be the same!");
             return;
+        }
 
         try
         {

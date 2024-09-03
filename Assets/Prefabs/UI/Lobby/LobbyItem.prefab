@@ -79,7 +79,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lobbyNameText: {fileID: 7159359125895943060}
   _joinButton: {fileID: 6491699906484168936}
-  _lobbyName: Lobby Name
 --- !u!1 &5686940374005069029
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +333,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 328714843371665843}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6971798300133549347}
+        m_TargetAssemblyTypeName: LobbyItemUI, Assembly-CSharp
+        m_MethodName: JoinLobbyClickAsync
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6393497771406488476
 GameObject:
   m_ObjectHideFlags: 0

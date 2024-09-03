@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
@@ -19,5 +20,13 @@ public class LobbyItemUI : MonoBehaviour
     public void UpdateLobbyName()
     {
         _lobbyNameText.text = _lobby.Name;
+    }
+
+    public async void JoinLobbyClickAsync()
+    {
+        if (_lobby != null)
+        {
+            await LobbyManager.JoinByLobbyId(_lobby.Id);
+        }
     }
 }

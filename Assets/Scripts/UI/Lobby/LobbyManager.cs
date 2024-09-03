@@ -9,6 +9,7 @@ using System.Collections.Generic;
 public class LobbyManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _lobbyNameInputField;
+    [SerializeField] private TMP_InputField _joinByCodeInputField;
     [SerializeField] private TextMeshProUGUI _lobbyCodeText;
     [SerializeField] private Button _copyLobbyCodeButton;
     [SerializeField] private LobbyListUI _lobbyListUI;
@@ -40,6 +41,26 @@ public class LobbyManager : MonoBehaviour
         _copyLobbyCodeButton.interactable = _lobby != null;
     }
 
+    public async void JoinByCodeClick()
+    {
+        string lobbyCode = _joinByCodeInputField.text;
+        await JoinByLobbyCode(lobbyCode);
+    }
+
+    public async Task JoinByLobbyCode(string lobbyCode)
+    {
+        try
+        {
+            Debug.Log($"Joining by Code: {lobbyCode}");
+            var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            Debug.Log($"Success join by Code: {lobbyCode} {lobby.Name}");
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogException(e);
+        }
+    }
+
     public void CopyLobbyCode()
     {
         if (_lobby == null)
@@ -49,7 +70,7 @@ public class LobbyManager : MonoBehaviour
     }
 
     [ContextMenu(nameof(SearchForLobbiesAsync))]
-    public async Task SearchForLobbiesAsync()
+    public async void SearchForLobbiesAsync()
     {
         try
         {
@@ -77,6 +98,20 @@ public class LobbyManager : MonoBehaviour
 
             _lobbyListUI.CreateLobbyList(lobbies.Results);
 
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    public static async Task JoinByLobbyId(string id)
+    {
+        try
+        {
+            Debug.Log($"Joining by Id: {id}");
+            var lobby = await LobbyService.Instance.JoinLobbyByIdAsync(id);
+            Debug.Log($"Success join by Id: {id} {lobby.Name}");
         }
         catch (LobbyServiceException e)
         {

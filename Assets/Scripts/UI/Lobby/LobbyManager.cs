@@ -5,19 +5,37 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.Services.Authentication;
+using System;
 
 public class LobbyManager : MonoBehaviour
 {
+    public static event Action<Lobby> OnJoinLobbySuccess;
+
+    public static event Action<string, string> OnRemovePlayerSuccess;
+    public static event Action<string, string, string> OnRemovePlayerFail;
+
     [SerializeField] private TMP_InputField _lobbyNameInputField;
     [SerializeField] private TMP_InputField _joinByCodeInputField;
     [SerializeField] private TextMeshProUGUI _lobbyCodeText;
     [SerializeField] private Button _copyLobbyCodeButton;
     [SerializeField] private LobbyListUI _lobbyListUI;
+
+    [SerializeField] private LobbyViewUI _lobbyView;
+
+
     private Lobby _lobby;
 
     private void Start()
     {
         UpdateCopyButtonInteractivity();
+
+        OnJoinLobbySuccess += Instance_OnJoinLobbySuccess;
+    }
+
+    private void Instance_OnJoinLobbySuccess(Lobby lobby)
+    {
+        OpenLobbyView(lobby);
     }
 
     private async Task CreateLobby(string lobbyName, int maxPlayers, bool isPrivate)
@@ -26,6 +44,7 @@ public class LobbyManager : MonoBehaviour
         options.IsPrivate = isPrivate;
 
         _lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+        OnJoinLobbySuccess.Invoke(_lobby);
         UpdateCopyButtonInteractivity();
         _lobbyCodeText.text = $"Lobby Code: {_lobby.LobbyCode}";
     }
@@ -53,6 +72,7 @@ public class LobbyManager : MonoBehaviour
         {
             Debug.Log($"Joining by Code: {lobbyCode}");
             var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            OnJoinLobbySuccess?.Invoke(lobby);
             Debug.Log($"Success join by Code: {lobbyCode} {lobby.Name}");
         }
         catch (LobbyServiceException e)
@@ -111,11 +131,69 @@ public class LobbyManager : MonoBehaviour
         {
             Debug.Log($"Joining by Id: {id}");
             var lobby = await LobbyService.Instance.JoinLobbyByIdAsync(id);
+            OnJoinLobbySuccess.Invoke(lobby);
             Debug.Log($"Success join by Id: {id} {lobby.Name}");
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
         }
+    }
+
+    public async void QuickJoinClick()
+    {
+        await QuickJoinAsync();
+    }
+
+    public async Task QuickJoinAsync()
+    {
+        try
+        {
+            QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
+
+            options.Filter = new List<QueryFilter>()
+            {
+                new QueryFilter(
+                    field: QueryFilter.FieldOptions.AvailableSlots,
+                    op: QueryFilter.OpOptions.EQ,
+                    value: "1")
+            };
+
+            var lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
+            OnJoinLobbySuccess.Invoke(lobby);
+            Debug.Log($"Success quick join: {lobby.Name}");
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    public static async Task RemovePlayerFromLobby(string lobbyId, string playerId)
+    {
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(lobbyId, playerId);
+            OnRemovePlayerSuccess.Invoke(lobbyId, playerId);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+            OnRemovePlayerFail.Invoke(lobbyId, playerId, e.Message);
+        }
+    }
+
+    public static async Task LeaveLobby(string lobbyId)
+    {
+        //Ensure you sign-in before calling Authentication Instance
+        //See IAuthenticationService interface
+        string playerId = AuthenticationService.Instance.PlayerId;
+
+        await RemovePlayerFromLobby(lobbyId, playerId);
+    }
+
+    public void OpenLobbyView(Lobby lobby)
+    {
+        _lobbyView.SetLobby(lobby);
     }
 }

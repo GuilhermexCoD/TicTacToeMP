@@ -4517,6 +4517,7 @@ MonoBehaviour:
   _lobbyListUI: {fileID: 841595496}
   _createLobbyView: {fileID: 934638251}
   _lobbyView: {fileID: 1190599056}
+  _lobbyJoinView: {fileID: 956183341}
 --- !u!4 &1567596063
 Transform:
   m_ObjectHideFlags: 0

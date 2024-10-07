@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -20,8 +21,25 @@ public class LobbyViewUI : MonoBehaviour
     {
         LobbyManager.Instance.OnJoinLobbySuccess += OnJoinLobbySuccess;
 
+        LobbyManager.Instance.OnLobbyStateChanged += OnLobbyStateChanged;
+        LobbyManager.Instance.OnLobbyInfoChanged += OnLobbyInfoChanged;
+
         LobbyManager.Instance.OnRemovePlayerSuccess += OnRemovePlayerSuccess;
         LobbyManager.Instance.OnRemovePlayerFail += OnRemovePlayerFail;
+    }
+
+    private async void OnLobbyInfoChanged(ILobbyChanges changes)
+    {
+        Debug.Log("Update Player Name");
+        var lobby = await LobbyService.Instance.GetLobbyAsync(_lobby.Id);
+
+        SetLobby(lobby);
+    }
+
+    private void OnLobbyStateChanged(LobbyEventConnectionState state)
+    {
+        Debug.Log("Update Player Name");
+        UpdatePlayerNames();
     }
 
     public async void SetLobby(Lobby lobby)
@@ -72,15 +90,15 @@ public class LobbyViewUI : MonoBehaviour
         if (_lobby.Players.Count >= 1)
         {
             var playerOne = _lobby.Players[0];
-            if (playerOne != null)
-                _playerOneText.text = playerOne.Data[PLAYER_NAME_KEY].Value;
+            if (playerOne != null && playerOne.Data != null)
+                _playerOneText.text = playerOne.Data[PLAYER_NAME_KEY]?.Value;
         }
 
         if (_lobby.Players.Count >= 2)
         {
             var playerTwo = _lobby.Players[1];
-            if (playerTwo != null)
-                _playerTwoText.text = playerTwo.Data[PLAYER_NAME_KEY].Value;
+            if (playerTwo != null && playerTwo.Data != null)
+                _playerTwoText.text = playerTwo.Data[PLAYER_NAME_KEY]?.Value;
         }
     }
 

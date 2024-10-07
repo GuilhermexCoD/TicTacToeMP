@@ -20,6 +20,8 @@ public class LobbyManager : MonoBehaviour
     public static LobbyManager Instance;
 
     public event Action<Lobby> OnJoinLobbySuccess;
+    public event Action<LobbyEventConnectionState> OnLobbyStateChanged;
+    public event Action<ILobbyChanges> OnLobbyInfoChanged;
 
     public event Action<string, string> OnRemovePlayerSuccess;
     public event Action<string, string, string> OnRemovePlayerFail;
@@ -30,6 +32,8 @@ public class LobbyManager : MonoBehaviour
 
     [SerializeField] private GameObject _createLobbyView;
     [SerializeField] private LobbyViewUI _lobbyView;
+
+    [SerializeField] private GameObject _lobbyJoinView;
 
     private Lobby _lobby;
 
@@ -74,6 +78,8 @@ public class LobbyManager : MonoBehaviour
         unityTransport.SetRelayServerData(new RelayServerData(allocation, CONNECTION_TYPE));
 
         StartHost();
+
+        SubscribeLobbyEvents(_lobby.Id);
 
         OnJoinLobbySuccess.Invoke(_lobby);
     }
@@ -206,6 +212,8 @@ public class LobbyManager : MonoBehaviour
         unityTransport.SetRelayServerData(new RelayServerData(joinAllocation, CONNECTION_TYPE));
 
         StartClient();
+
+        Instance.SubscribeLobbyEvents(lobby.Id);
     }
 
     public static async Task RemovePlayerFromLobby(string lobbyId, string playerId)
@@ -233,6 +241,7 @@ public class LobbyManager : MonoBehaviour
 
     public void OpenLobbyView(Lobby lobby)
     {
+        _lobbyJoinView.SetActive(false);
         _lobbyView.SetLobby(lobby);
     }
 
@@ -306,6 +315,11 @@ public class LobbyManager : MonoBehaviour
 
     public async void SubscribeLobbyEvents(string lobbyId)
     {
+        // Player1 cria a partida e se inscreve nos eventos
+        // Player2 encontrar a partida e se inscreve nos eventos
+        // Player2 envia para o Player1 que entrou na partida
+        // Player1 deveria receber os dados do Player2 
+
         var callbacks = new LobbyEventCallbacks();
         callbacks.LobbyChanged += OnLobbyChanged;
         callbacks.KickedFromLobby += OnKickedFromLobby;
@@ -329,6 +343,7 @@ public class LobbyManager : MonoBehaviour
     private void OnLobbyEventConnectionStateChanged(LobbyEventConnectionState state)
     {
         Debug.Log($"Lobby State Changed: {state}");
+        OnLobbyStateChanged?.Invoke(state);
     }
 
     private void OnKickedFromLobby()
@@ -339,6 +354,6 @@ public class LobbyManager : MonoBehaviour
     private void OnLobbyChanged(ILobbyChanges changes)
     {
         Debug.Log($"Lobby info changed: {changes.Name.Value}");
-
+        OnLobbyInfoChanged?.Invoke(changes);
     }
 }

@@ -6,6 +6,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyViewUI : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class LobbyViewUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _lobbyInfoText;
     [SerializeField] private TextMeshProUGUI _playerOneText;
     [SerializeField] private TextMeshProUGUI _playerTwoText;
+    [SerializeField] private Button _readyButton;
 
     private Lobby _lobby;
     public void Start()
@@ -26,6 +28,13 @@ public class LobbyViewUI : MonoBehaviour
 
         LobbyManager.Instance.OnRemovePlayerSuccess += OnRemovePlayerSuccess;
         LobbyManager.Instance.OnRemovePlayerFail += OnRemovePlayerFail;
+
+        _readyButton.onClick.AddListener(OnReadyClick);
+    }
+
+    private void OnReadyClick()
+    {
+        this.LoadNetworkAsync("GameplayScene");
     }
 
     private async void OnLobbyInfoChanged(ILobbyChanges changes)
